@@ -2,9 +2,12 @@
 @use "../constants.scss" as constant;
 
 nav {
+  position: fixed;
+  width: 100%;
   background-color: color.$primary;
   box-shadow: 0 4px 8px color.$grey;
   color: color.$white;
+  height: constant.$navbar-height;
 }
 
 .navbar {
@@ -13,7 +16,8 @@ nav {
   align-items: center;
   justify-content: space-between;
   margin: 0 auto;
-  padding: 16px 16px;
+  padding: 0 16px;
+  height: 100%;
 }
 
 .logo {
