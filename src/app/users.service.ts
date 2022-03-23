@@ -1,85 +1,26 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable, shareReplay } from 'rxjs';
+import { ApiResponse } from './api-response';
+import { User } from './user';
 
-const users = [
-  {
-    id: 4038,
-    name: 'Bela Pandey III',
-    email: 'bela_pandey_iii@kshlerin-schaefer.net',
-    gender: 'male',
-    status: 'inactive',
-  },
-  {
-    id: 4037,
-    name: 'Rev. Chaitan Bhattathiri',
-    email: 'rev_chaitan_bhattathiri@gerhold.net',
-    gender: 'male',
-    status: 'active',
-  },
-  {
-    id: 4036,
-    name: 'Abhaidev Panicker',
-    email: 'panicker_abhaidev@gusikowski-wilkinson.co',
-    gender: 'male',
-    status: 'inactive',
-  },
-  {
-    id: 4035,
-    name: 'Ms. Kanak Dwivedi',
-    email: 'dwivedi_ms_kanak@klocko-windler.net',
-    gender: 'female',
-    status: 'inactive',
-  },
-  {
-    id: 4034,
-    name: 'Ms. Bakula Achari',
-    email: 'achari_ms_bakula@crist-pacocha.io',
-    gender: 'female',
-    status: 'inactive',
-  },
-  {
-    id: 4032,
-    name: 'Bhuvanesh Kaul',
-    email: 'kaul_bhuvanesh@armstrong.info',
-    gender: 'male',
-    status: 'active',
-  },
-  {
-    id: 4031,
-    name: 'Msgr. Siddhi Reddy',
-    email: 'siddhi_msgr_reddy@monahan.org',
-    gender: 'male',
-    status: 'active',
-  },
-  {
-    id: 4030,
-    name: 'Prasad Namboothiri CPA',
-    email: 'prasad_namboothiri_cpa@dubuque.org',
-    gender: 'male',
-    status: 'inactive',
-  },
-  {
-    id: 4029,
-    name: 'Sudeva Asan VM',
-    email: 'sudeva_asan_vm@cummings.biz',
-    gender: 'male',
-    status: 'inactive',
-  },
-  {
-    id: 4028,
-    name: 'Aalok Sharma',
-    email: 'sharma_aalok@barrows.name',
-    gender: 'male',
-    status: 'inactive',
-  },
-];
+const DEFAULT_API_PATH = 'https://gorest.co.in/public/v1/users';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsersService {
-  constructor() {}
+  constructor(private http: HttpClient) {}
+  private users$: Observable<ApiResponse<User>>;
 
-  getUsers() {
-    return users;
+  getUsers(path?: string | null) {
+    if (!this.users$ || path) {
+      this.users$ = this.http
+        .get<ApiResponse<User>>(path || DEFAULT_API_PATH)
+        // avoids refeching same data
+        .pipe(shareReplay(1));
+    }
+
+    return this.users$;
   }
 }

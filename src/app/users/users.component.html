@@ -1,3 +1,18 @@
-<div class="users-wrapper">
-  <app-user-card *ngFor="let user of users" [user]="user"></app-user-card>
+<div class="users-page">
+  <app-pagination-wrapper
+    [paginationData]="{
+      showPagination: !!users,
+      pagination: pagination,
+      itemsCount: users?.length || 0,
+      onPrevious: onPrevious,
+      onNext: onNext
+    }"
+  >
+    <div class="users-wrapper">
+      <app-user-card *ngFor="let user of users" [user]="user"></app-user-card>
+    </div>
+  </app-pagination-wrapper>
+
+  <!-- show if no users to display -->
+  <p *ngIf="!users">Ładowanie...</p>
 </div>

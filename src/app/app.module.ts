@@ -10,6 +10,10 @@ import { TodosComponent } from './todos/todos.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { CardComponent } from './card/card.component';
 import { UserCardComponent } from './user-card/user-card.component';
+import { HttpClientModule } from '@angular/common/http';
+import { PaginationComponent } from './pagination/pagination.component';
+import { PaginationWrapperComponent } from './pagination-wrapper/pagination-wrapper.component';
+import { TodoCardComponent } from './todo-card/todo-card.component';
 
 @NgModule({
   declarations: [
@@ -20,13 +24,13 @@ import { UserCardComponent } from './user-card/user-card.component';
     TodosComponent,
     NavbarComponent,
     CardComponent,
-    UserCardComponent
+    UserCardComponent,
+    PaginationComponent,
+    PaginationWrapperComponent,
+    TodoCardComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
-  ],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

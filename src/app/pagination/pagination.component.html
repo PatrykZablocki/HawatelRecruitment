@@ -1,0 +1,12 @@
+<div *ngIf="data.showPagination" class="pagination">
+  <p>{{ paginationInfo }}</p>
+  <button
+    [disabled]="!data.pagination.links.previous"
+    (click)="data.onPrevious()"
+  >
+    Previous
+  </button>
+  <button [disabled]="!data.pagination.links.next" (click)="data.onNext()">
+    Next
+  </button>
+</div>

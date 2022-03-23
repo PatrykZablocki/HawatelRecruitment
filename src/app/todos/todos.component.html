@@ -1,1 +1,20 @@
-<p>todos works!</p>
+<div class="todos-page">
+  <app-pagination-wrapper
+    [paginationData]="{
+      showPagination: !!todos,
+      pagination: pagination,
+      itemsCount: todos?.length || 0,
+      onPrevious: onPrevious,
+      onNext: onNext
+    }"
+  >
+    <div class="todos-wrapper">
+      <app-todo-card
+        *ngFor="let todo of todos"
+        [todo]="todo"
+      ></app-todo-card></div
+  ></app-pagination-wrapper>
+
+  <!-- show if no todos to display -->
+  <p *ngIf="!todos">Ładowanie...</p>
+</div>
