@@ -1,10 +1,4 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { MetaPagination } from '../meta-pagination';
 import { PaginationComponentData } from '../pagination-component-data';
 
@@ -21,7 +15,17 @@ export class PaginationComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {}
 
-  ngOnChanges(changes: SimpleChanges): void {
+  onPrevious() {
+    const prevPage = this.data.pagination.links.previous;
+    this.data.getData(prevPage);
+  }
+
+  onNext() {
+    const nextPage = this.data.pagination.links.next;
+    this.data.getData(nextPage);
+  }
+
+  ngOnChanges(): void {
     this.setPaginationInfo(this.data.pagination, this.data.itemsCount);
   }
 

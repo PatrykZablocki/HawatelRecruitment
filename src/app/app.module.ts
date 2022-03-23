@@ -14,6 +14,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { PaginationComponent } from './pagination/pagination.component';
 import { PaginationWrapperComponent } from './pagination-wrapper/pagination-wrapper.component';
 import { TodoCardComponent } from './todo-card/todo-card.component';
+import { PostCardComponent } from './post-card/post-card.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { TodoCardComponent } from './todo-card/todo-card.component';
     PaginationComponent,
     PaginationWrapperComponent,
     TodoCardComponent,
+    PostCardComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [],

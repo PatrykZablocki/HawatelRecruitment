@@ -1,1 +1,19 @@
-<p>posts works!</p>
+<div class="posts-page">
+  <app-pagination-wrapper
+    [paginationData]="{
+      showPagination: !!posts,
+      pagination: pagination,
+      itemsCount: posts?.length || 0,
+      getData: getData
+    }"
+  >
+    <div class="posts-wrapper">
+      <app-post-card
+        *ngFor="let post of posts"
+        [post]="post"
+      ></app-post-card></div
+  ></app-pagination-wrapper>
+
+  <!-- show if no posts to display -->
+  <p *ngIf="!posts">Ładowanie...</p>
+</div>

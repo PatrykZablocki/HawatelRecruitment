@@ -4,6 +4,5 @@ export interface PaginationComponentData {
   showPagination: boolean;
   pagination: MetaPagination;
   itemsCount: number;
-  onPrevious: () => void;
-  onNext: () => void;
+  getData: (page?: string | null) => void;
 }

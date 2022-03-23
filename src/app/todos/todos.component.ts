@@ -18,22 +18,12 @@ export class TodosComponent implements OnInit {
     this.getData();
   }
 
-  onPrevious = () => {
-    const prevPage = this.pagination.links.previous;
-    this.getData(prevPage);
-  };
-
-  onNext = () => {
-    const nextPage = this.pagination.links.next;
-    this.getData(nextPage);
-  };
-
-  getData(page?: string | null) {
+  getData = (page?: string | null) => {
     this.todosService.getTodos(page).subscribe(({ data, meta }) => {
       this.todos = this.transformTodoData(data);
       this.pagination = meta.pagination;
     });
-  }
+  };
 
   transformTodoData(todos: Todo[]) {
     return todos.map((todo) => ({

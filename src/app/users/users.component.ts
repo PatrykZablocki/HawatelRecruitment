@@ -18,20 +18,10 @@ export class UsersComponent implements OnInit {
     this.getData();
   }
 
-  onPrevious = () => {
-    const prevPage = this.pagination.links.previous;
-    this.getData(prevPage);
-  };
-
-  onNext = () => {
-    const nextPage = this.pagination.links.next;
-    this.getData(nextPage);
-  };
-
-  getData(page?: string | null) {
+  getData = (page?: string | null) => {
     this.usersService.getUsers(page).subscribe(({ data, meta }) => {
       this.users = data;
       this.pagination = meta.pagination;
     });
-  }
+  };
 }
