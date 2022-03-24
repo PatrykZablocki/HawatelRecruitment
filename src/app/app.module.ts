@@ -15,6 +15,8 @@ import { PaginationComponent } from './pagination/pagination.component';
 import { PaginationWrapperComponent } from './pagination-wrapper/pagination-wrapper.component';
 import { TodoCardComponent } from './todo-card/todo-card.component';
 import { PostCardComponent } from './post-card/post-card.component';
+import { AddUserComponent } from './add-user/add-user.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -30,8 +32,9 @@ import { PostCardComponent } from './post-card/post-card.component';
     PaginationWrapperComponent,
     TodoCardComponent,
     PostCardComponent,
+    AddUserComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
+  imports: [BrowserModule, FormsModule, AppRoutingModule, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent],
 })

@@ -1,4 +1,5 @@
 <div class="users-page">
+  <button class="add-user" routerLink="/users/add">Add new user</button>
   <app-pagination-wrapper
     [paginationData]="{
       showPagination: !!users,
@@ -13,5 +14,5 @@
   </app-pagination-wrapper>
 
   <!-- show if no users to display -->
-  <p *ngIf="!users">Ładowanie...</p>
+  <p *ngIf="!users">Loading...</p>
 </div>

@@ -5,3 +5,5 @@ export interface User {
   gender: string;
   status: string;
 }
+
+export type CreateUserDto = Omit<User, 'id'>;

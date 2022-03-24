@@ -1,0 +1,36 @@
+<div class="add-user-page">
+  <h3>Add new user</h3>
+  <form (submit)="onSubmit($event)">
+    <fieldset [disabled]="disableFormFields">
+      <input
+        type="text"
+        placeholder="Insert name"
+        required
+        name="name"
+        [(ngModel)]="user.name"
+      />
+      <input
+        type="email"
+        placeholder="Insert email"
+        required
+        name="email"
+        [(ngModel)]="user.email"
+      />
+      <select required name="gender" [(ngModel)]="user.gender">
+        <option selected disabled value="">Select gender</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+      </select>
+      <select required name="status" [(ngModel)]="user.status">
+        <option selected disabled value="">Select status</option>
+        <option value="active">Active</option>
+        <option value="inactive">Inactive</option>
+      </select>
+      <button type="submit">Add user</button>
+    </fieldset>
+  </form>
+
+  <p *ngIf="response" class="response {{ response.type }}">
+    {{ response.msg }}
+  </p>
+</div>
