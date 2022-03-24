@@ -17,6 +17,7 @@ import { TodoCardComponent } from './todo-card/todo-card.component';
 import { PostCardComponent } from './post-card/post-card.component';
 import { AddUserComponent } from './add-user/add-user.component';
 import { FormsModule } from '@angular/forms';
+import { AddPostComponent } from './add-post/add-post.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { FormsModule } from '@angular/forms';
     TodoCardComponent,
     PostCardComponent,
     AddUserComponent,
+    AddPostComponent,
   ],
   imports: [BrowserModule, FormsModule, AppRoutingModule, HttpClientModule],
   providers: [],

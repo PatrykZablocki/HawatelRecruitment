@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AddPostComponent } from './add-post/add-post.component';
 import { AddUserComponent } from './add-user/add-user.component';
 import { HomeComponent } from './home/home.component';
 import { PostsComponent } from './posts/posts.component';
@@ -11,6 +12,7 @@ const routes: Routes = [
   { path: 'users', component: UsersComponent },
   { path: 'users/add', component: AddUserComponent },
   { path: 'posts', component: PostsComponent },
+  { path: 'posts/add', component: AddPostComponent },
   { path: 'todos', component: TodosComponent },
   { path: '**', redirectTo: '' },
 ];

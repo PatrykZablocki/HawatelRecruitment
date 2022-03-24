@@ -1,0 +1,34 @@
+<div class="add-post-page">
+  <h3>Add new post</h3>
+  <form (submit)="onSubmit($event)" ngNativeValidate>
+    <fieldset [disabled]="disableFormFields">
+      <input
+        type="number"
+        placeholder="Insert User ID"
+        required
+        name="user"
+        [(ngModel)]="post.user_id"
+        min="1"
+      />
+      <input
+        type="text"
+        placeholder="Insert title"
+        required
+        name="title"
+        [(ngModel)]="post.title"
+      />
+      <textarea
+        rows="12"
+        placeholder="Insert post body"
+        required
+        name="body"
+        [(ngModel)]="post.body"
+      ></textarea>
+      <button type="submit">Add post</button>
+    </fieldset>
+  </form>
+
+  <p *ngIf="response" class="response {{ response.type }}">
+    {{ response.msg }}
+  </p>
+</div>

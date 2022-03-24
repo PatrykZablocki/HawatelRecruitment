@@ -1,19 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { finalize } from 'rxjs';
-import { CreateUserDto } from '../user';
-import { UsersService } from '../users.service';
+import { PostsService } from '../posts.service';
 
 @Component({
-  selector: 'app-add-user',
-  templateUrl: './add-user.component.html',
-  styleUrls: ['./add-user.component.scss'],
+  selector: 'app-add-post',
+  templateUrl: './add-post.component.html',
+  styleUrls: ['./add-post.component.scss'],
 })
-export class AddUserComponent implements OnInit {
-  user: CreateUserDto = {
-    name: '',
-    email: '',
-    gender: '',
-    status: '',
+export class AddPostComponent implements OnInit {
+  post = {
+    body: '',
+    title: '',
+    user_id: '',
   };
   disableFormFields: boolean;
   // object with info for response p tag
@@ -22,28 +20,28 @@ export class AddUserComponent implements OnInit {
     type: 'success' | 'error';
   };
 
-  constructor(private usersService: UsersService) {}
+  constructor(private postsService: PostsService) {}
 
   ngOnInit(): void {}
 
   onSubmit(e: SubmitEvent) {
-    e.preventDefault();
+    e.preventDefault;
     this.disableFormFields = true;
-    this.usersService
-      .addUser(this.user)
+    this.postsService
+      .addPost({ ...this.post, user_id: +this.post.user_id })
       .pipe(finalize(() => (this.disableFormFields = false)))
       .subscribe({
         next: () => {
           this.response = {
-            msg: `User was added.`,
+            msg: `Post was added.`,
             type: 'success',
           };
-          this.usersService.invalidateUsersData();
+          this.postsService.invalidatePostsData();
         },
         error: (err) => {
           console.error(err);
           this.response = {
-            msg: `Failed to add user (${err.statusText})`,
+            msg: `Failed to add post (${err.statusText})`,
             type: 'error',
           };
         },

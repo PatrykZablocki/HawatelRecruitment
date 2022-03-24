@@ -1,6 +1,6 @@
 <div class="add-user-page">
   <h3>Add new user</h3>
-  <form (submit)="onSubmit($event)">
+  <form (submit)="onSubmit($event)" ngNativeValidate>
     <fieldset [disabled]="disableFormFields">
       <input
         type="text"

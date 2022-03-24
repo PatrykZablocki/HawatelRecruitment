@@ -6,6 +6,11 @@
   box-sizing: inherit;
 }
 
+body {
+  font-family: "Open Sans", sans-serif;
+  color: color.$dark;
+}
+
 ul {
   list-style: none;
 }
@@ -15,7 +20,32 @@ a {
   color: inherit;
 }
 
-body {
-  font-family: "Open Sans", sans-serif;
-  color: color.$dark;
+button {
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+textarea {
+  resize: none;
+}
+
+input,
+select,
+textarea {
+  outline: none;
+  padding: 6px 12px;
+  border-radius: 2px;
+  border: 1px solid color.$grey;
+  font-size: 14px;
+
+  &:focus {
+    border-color: color.$primary;
+  }
+}
+
+fieldset {
+  border: none;
 }

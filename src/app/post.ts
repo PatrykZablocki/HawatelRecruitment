@@ -4,3 +4,5 @@ export interface Post {
   title: string;
   body: string;
 }
+
+export type CreatePostDto = Omit<Post, 'id'>;

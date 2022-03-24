@@ -9,7 +9,6 @@
 }
 
 button {
-  cursor: pointer;
   border: none;
   padding: 8px 12px;
   background-color: color.$primary;
@@ -25,7 +24,6 @@ button {
   }
 
   &:disabled {
-    cursor: not-allowed;
     background-color: color.$grey;
     box-shadow: none;
     opacity: 1;
