@@ -18,6 +18,7 @@ import { PostCardComponent } from './post-card/post-card.component';
 import { AddUserComponent } from './add-user/add-user.component';
 import { FormsModule } from '@angular/forms';
 import { AddPostComponent } from './add-post/add-post.component';
+import { PostCardWithCommentsComponent } from './post-card-with-comments/post-card-with-comments.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { AddPostComponent } from './add-post/add-post.component';
     PostCardComponent,
     AddUserComponent,
     AddPostComponent,
+    PostCardWithCommentsComponent,
   ],
   imports: [BrowserModule, FormsModule, AppRoutingModule, HttpClientModule],
   providers: [],

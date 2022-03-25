@@ -1,4 +1,5 @@
-<app-card>
+<app-card *ngIf="post">
   <h2>{{ post.title }}</h2>
   <p class="body">{{ post.body }}</p>
+  <ng-content></ng-content>
 </app-card>

@@ -1,3 +1,5 @@
 <app-pagination [data]="paginationData"></app-pagination>
 <ng-content></ng-content>
 <app-pagination [data]="paginationData"></app-pagination>
+
+<p class="loading" *ngIf="!paginationData.itemsCount">Loading...</p>

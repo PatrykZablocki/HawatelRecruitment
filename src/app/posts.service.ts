@@ -1,8 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, shareReplay } from 'rxjs';
+import { lastValueFrom, Observable, shareReplay } from 'rxjs';
 import { ApiResponse } from './api-response';
-import { CreatePostDto, Post } from './post';
+import { Comment } from './comment';
+import { CreatePostDto, Post, PostWithComments } from './post';
 
 const DEFAULT_API_PATH = 'https://gorest.co.in/public/v1/posts';
 const headers = new HttpHeaders().set(
@@ -16,8 +17,10 @@ const headers = new HttpHeaders().set(
 export class PostsService {
   constructor(private http: HttpClient) {}
   private posts$: Observable<ApiResponse<Post>> | null;
+  test: any;
 
-  getPosts(path?: string | null) {
+  // path for next or previous page
+  getPosts(path?: string | null): Promise<ApiResponse<Post>> {
     if (!this.posts$ || path) {
       this.posts$ = this.http
         .get<ApiResponse<Post>>(path || DEFAULT_API_PATH, {
@@ -27,7 +30,7 @@ export class PostsService {
         .pipe(shareReplay(1));
     }
 
-    return this.posts$;
+    return lastValueFrom(this.posts$);
   }
 
   // it forces fetching data with next invoke of getUsers()
@@ -39,5 +42,36 @@ export class PostsService {
     return this.http.post(DEFAULT_API_PATH, post, {
       headers,
     });
+  }
+
+  // function will fetch all posts for the page and then fetch comments for each post
+  getPostsWithComments(path?: string | null) {
+    let postsWithComments: ApiResponse<PostWithComments>;
+    return this.getPosts(path)
+      .then((posts) => {
+        postsWithComments = {
+          meta: posts.meta,
+          data: [],
+        };
+        // get comments for each posts
+        return posts.data.forEach((post, index) => {
+          this.getComments(post.id).then((res) => {
+            const postWithComments: PostWithComments = {
+              ...post,
+              comments: res.data,
+            };
+            postsWithComments.data[index] = postWithComments;
+          });
+        });
+      })
+      .then(() => postsWithComments);
+  }
+
+  private getComments(postId: number) {
+    return lastValueFrom(
+      this.http.get<ApiResponse<Comment>>(
+        `${DEFAULT_API_PATH}/${postId}/comments`
+      )
+    );
   }
 }

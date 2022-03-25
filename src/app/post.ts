@@ -1,3 +1,5 @@
+import { Comment } from './comment';
+
 export interface Post {
   id: number;
   user_id: number;
@@ -6,3 +8,7 @@ export interface Post {
 }
 
 export type CreatePostDto = Omit<Post, 'id'>;
+
+export type PostWithComments = Post & {
+  comments: Comment[];
+};

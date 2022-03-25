@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MetaPagination } from '../meta-pagination';
-import { Post } from '../post';
+import { PostWithComments } from '../post';
 import { PostsService } from '../posts.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { PostsService } from '../posts.service';
   styleUrls: ['./posts.component.scss'],
 })
 export class PostsComponent implements OnInit {
-  posts: Post[];
+  posts: PostWithComments[];
   pagination: MetaPagination;
 
   constructor(private postsService: PostsService) {}
@@ -19,7 +19,7 @@ export class PostsComponent implements OnInit {
   }
 
   getData = (page?: string | null) => {
-    this.postsService.getPosts(page).subscribe(({ data, meta }) => {
+    this.postsService.getPostsWithComments(page).then(({ data, meta }) => {
       this.posts = data;
       this.pagination = meta.pagination;
     });

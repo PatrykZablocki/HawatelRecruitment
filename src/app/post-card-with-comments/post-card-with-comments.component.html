@@ -1,0 +1,12 @@
+<app-post-card [post]="post" *ngIf="post">
+  <h3 *ngIf="post.comments.length" class="comments-heading">Comments:</h3>
+  <div class="comment" *ngFor="let comment of post.comments">
+    <header>
+      <h4>{{ comment.name }}</h4>
+      <p class="comment__email">{{ comment.email }}</p>
+    </header>
+    <p class="comment__body">
+      {{ comment.body }}
+    </p>
+  </div>
+</app-post-card>

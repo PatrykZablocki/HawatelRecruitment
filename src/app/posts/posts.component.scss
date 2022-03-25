@@ -5,8 +5,9 @@
 }
 
 .posts-wrapper {
-  display: grid;
-  row-gap: 12px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
 }
 
 button.add-post {
