@@ -1,0 +1,35 @@
+@use "../../colors.scss" as color;
+
+.comments-heading {
+  text-transform: uppercase;
+  margin-top: 24px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid color.$grey;
+  padding-left: 5px;
+  position: relative;
+}
+.comment {
+  background-color: color.$light;
+  margin: 16px 0;
+  border-radius: 4px;
+
+  header {
+    border-radius: inherit;
+    padding: 8px 12px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap-reverse;
+    background-color: color.$grey;
+  }
+
+  &__email {
+    font-size: 14px;
+    display: inline-block;
+  }
+
+  &__body {
+    padding: 16px;
+    font-size: 14px;
+  }
+}

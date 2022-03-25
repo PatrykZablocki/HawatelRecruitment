@@ -1,0 +1,21 @@
+@use "../../colors.scss" as color;
+
+.posts-page {
+  padding: 50px 0 100px;
+}
+
+.posts-wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+}
+
+button.add-post {
+  border: none;
+  background-color: color.$primary;
+  color: color.$white;
+  padding: 8px 24px;
+  box-shadow: 2px 4px 12px color.$grey;
+  border-radius: 8px;
+  font-weight: 600;
+}

@@ -1,0 +1,59 @@
+@use "../../colors.scss" as color;
+@use "../../constants.scss" as constant;
+
+nav {
+  position: fixed;
+  z-index: 99;
+  width: 100%;
+  background-color: color.$primary;
+  box-shadow: 0 4px 8px color.$grey;
+  color: color.$white;
+  height: constant.$navbar-height;
+}
+
+.navbar {
+  max-width: constant.$container-lg;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 auto;
+  padding: 0 16px;
+  height: 100%;
+}
+
+.logo {
+  font-size: 18px;
+  font-weight: 700;
+
+  &::before {
+    content: attr(data-name);
+
+    @media screen and (max-width: 520px) {
+      content: attr(data-short-name);
+    }
+  }
+}
+
+ul {
+  display: flex;
+  column-gap: 30px;
+}
+
+ul a {
+  font-weight: 600;
+  padding: 6px 12px;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: color.$white;
+    border-radius: 4px;
+    opacity: 0;
+    transition: opacity 0.2s ease-out;
+  }
+  &:hover::before {
+    opacity: 0.1;
+  }
+}

@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AddPostComponent } from './add-post/add-post.component';
-import { AddUserComponent } from './add-user/add-user.component';
-import { HomeComponent } from './home/home.component';
-import { PostsComponent } from './posts/posts.component';
-import { TodosComponent } from './todos/todos.component';
-import { UsersComponent } from './users/users.component';
+import { AddPostComponent } from './pages/add-post/add-post.component';
+import { AddUserComponent } from './pages/add-user/add-user.component';
+import { HomeComponent } from './pages/home/home.component';
+import { PostsComponent } from './pages/posts/posts.component';
+import { TodosComponent } from './pages/todos/todos.component';
+import { UsersComponent } from './pages/users/users.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
