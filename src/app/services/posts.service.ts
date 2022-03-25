@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { lastValueFrom, Observable, shareReplay } from 'rxjs';
+import { firstValueFrom, shareReplay, Subject } from 'rxjs';
 import { ApiResponse } from '../interfaces/api-response';
 import { Comment } from '../interfaces/comment';
 import { CreatePostDto, Post, PostWithComments } from '../interfaces/post';
@@ -16,27 +16,10 @@ const headers = new HttpHeaders().set(
 })
 export class PostsService {
   constructor(private http: HttpClient) {}
-  private posts$: Observable<ApiResponse<Post>> | null;
-  test: any;
 
-  // path for next or previous page
-  getPosts(path?: string | null): Promise<ApiResponse<Post>> {
-    if (!this.posts$ || path) {
-      this.posts$ = this.http
-        .get<ApiResponse<Post>>(path || DEFAULT_API_PATH, {
-          headers,
-        })
-        // avoids refeching same data
-        .pipe(shareReplay(1));
-    }
-
-    return lastValueFrom(this.posts$);
-  }
-
-  // it forces fetching data with next invoke of getUsers()
-  invalidatePostsData() {
-    this.posts$ = null;
-  }
+  private postsSubject$ = new Subject<ApiResponse<PostWithComments>>();
+  postsObs$ = this.postsSubject$.asObservable().pipe(shareReplay(1));
+  private firstFetch: boolean = true;
 
   addPost(post: CreatePostDto) {
     return this.http.post(DEFAULT_API_PATH, post, {
@@ -44,34 +27,52 @@ export class PostsService {
     });
   }
 
-  // function will fetch all posts for the page and then fetch comments for each post
   getPostsWithComments(path?: string | null) {
-    let postsWithComments: ApiResponse<PostWithComments>;
-    return this.getPosts(path)
-      .then((posts) => {
-        postsWithComments = {
-          meta: posts.meta,
-          data: [],
-        };
-        // get comments for each posts
-        return posts.data.forEach((post, index) => {
-          this.getComments(post.id).then((res) => {
-            const postWithComments: PostWithComments = {
-              ...post,
-              comments: res.data,
-            };
-            postsWithComments.data[index] = postWithComments;
-          });
-        });
-      })
-      .then(() => postsWithComments);
+    if (this.firstFetch || path) {
+      this.fetchPostsWithComments(path);
+      this.firstFetch = false;
+    }
   }
 
-  private getComments(postId: number) {
-    return lastValueFrom(
-      this.http.get<ApiResponse<Comment>>(
-        `${DEFAULT_API_PATH}/${postId}/comments`
-      )
+  // it forces fetching data with next invoke of getPostsWithComments()
+  invalidatePostsData() {
+    this.firstFetch = true;
+  }
+
+  private fetchPostsWithComments(path?: string | null) {
+    let result: ApiResponse<PostWithComments>;
+
+    // fetch posts
+    this.fetchPosts(path).then(({ meta, data }) => {
+      result = {
+        meta: meta,
+        data: data.map((post): PostWithComments => ({ ...post, comments: [] })),
+      };
+      this.postsSubject$.next(result);
+
+      // fetch comments for each post
+      data.forEach((post, index) => {
+        this.fetchComments(post.id).then(
+          (comments) => (result.data[index].comments = comments.data)
+        );
+        this.postsSubject$.next(result);
+      });
+    });
+  }
+
+  private fetchPosts(path?: string | null) {
+    const request = this.http.get<ApiResponse<Post>>(path || DEFAULT_API_PATH, {
+      headers,
+    });
+
+    return firstValueFrom(request);
+  }
+
+  private fetchComments(postId: number) {
+    const request = this.http.get<ApiResponse<Comment>>(
+      `${DEFAULT_API_PATH}/${postId}/comments`
     );
+
+    return firstValueFrom(request);
   }
 }

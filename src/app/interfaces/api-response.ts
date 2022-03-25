@@ -1,8 +1,6 @@
-import { MetaPagination } from './meta-pagination';
+import { ResponseMeta } from './response-meta';
 
 export interface ApiResponse<DataType> {
   data: DataType[];
-  meta: {
-    pagination: MetaPagination;
-  };
+  meta: ResponseMeta;
 }
