@@ -1,4 +1,4 @@
-<app-card>
+<app-card *ngIf="user">
   <header>
     <span class="gender">{{ user.gender }}</span>
     <span class="status {{ user.status }}">{{ user.status }}</span>

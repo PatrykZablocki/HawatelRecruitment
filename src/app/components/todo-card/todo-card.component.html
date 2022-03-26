@@ -1,4 +1,4 @@
-<app-card>
+<app-card *ngIf="todo">
   <header>
     <p class="user-id">User ID: {{ todo.user_id }}</p>
     <p class="due-on">{{ todo.due_on }}</p>

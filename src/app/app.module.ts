@@ -18,6 +18,9 @@ import { TodoCardComponent } from './components/todo-card/todo-card.component';
 import { PostCardComponent } from './components/post-card/post-card.component';
 import { AddUserComponent } from './pages/add-user/add-user.component';
 import { PostCardWithCommentsComponent } from './components/post-card-with-comments/post-card-with-comments.component';
+import { TodosService } from './services/todos.service';
+import { UsersService } from './services/users.service';
+import { PostsService } from './services/posts.service';
 
 @NgModule({
   declarations: [
@@ -38,7 +41,7 @@ import { PostCardWithCommentsComponent } from './components/post-card-with-comme
     PostCardWithCommentsComponent,
   ],
   imports: [BrowserModule, FormsModule, AppRoutingModule, HttpClientModule],
-  providers: [],
+  providers: [TodosService, UsersService, PostsService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
