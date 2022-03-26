@@ -22,9 +22,11 @@ export class PostsService {
   private firstFetch: boolean = true;
 
   addPost(post: CreatePostDto) {
-    return this.http.post(DEFAULT_API_PATH, post, {
+    const request = this.http.post(DEFAULT_API_PATH, post, {
       headers,
     });
+
+    return firstValueFrom(request);
   }
 
   getPostsWithComments(path?: string | null) {

@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, shareReplay } from 'rxjs';
+import { firstValueFrom, Observable, shareReplay, Subject } from 'rxjs';
 import { ApiResponse } from '../interfaces/api-response';
 import { Todo } from '../interfaces/todo';
 
@@ -17,19 +17,39 @@ const params = new HttpParams().set('status', 'pending');
 })
 export class TodosService {
   constructor(private http: HttpClient) {}
-  private todos$: Observable<ApiResponse<Todo>>;
+
+  private todosSubject$ = new Subject<ApiResponse<Todo>>();
+  todosObs$ = this.todosSubject$.asObservable().pipe(shareReplay(1));
+  private firstFetch: boolean = true;
 
   getTodos(path?: string | null) {
-    if (!this.todos$ || path) {
-      this.todos$ = this.http
-        .get<ApiResponse<Todo>>(path || DEFAULT_API_PATH, {
-          params,
-          headers,
-        })
-        // avoids refeching same data
-        .pipe(shareReplay(1));
+    if (this.firstFetch || path) {
+      this.fetchTodos(path)
+        .then(this.transformTodosResponse)
+        .then((res) => this.todosSubject$.next(res));
+      this.firstFetch = false;
     }
+  }
 
-    return this.todos$;
+  private fetchTodos(path?: string | null) {
+    const request = this.http.get<ApiResponse<Todo>>(path || DEFAULT_API_PATH, {
+      params,
+      headers,
+    });
+
+    return firstValueFrom(request);
+  }
+
+  // transforms date
+  private transformTodosResponse(
+    response: ApiResponse<Todo>
+  ): ApiResponse<Todo> {
+    return {
+      ...response,
+      data: response.data.map((todo) => ({
+        ...todo,
+        due_on: new Date(todo.due_on).toLocaleDateString(),
+      })),
+    };
   }
 }

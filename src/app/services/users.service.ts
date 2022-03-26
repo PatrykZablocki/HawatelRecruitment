@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, shareReplay } from 'rxjs';
+import { firstValueFrom, Observable, shareReplay, Subject } from 'rxjs';
 import { ApiResponse } from '../interfaces/api-response';
 import { CreateUserDto, User } from '../interfaces/user';
 
@@ -15,30 +15,37 @@ const headers = new HttpHeaders().set(
 })
 export class UsersService {
   constructor(private http: HttpClient) {}
-  private users$: Observable<ApiResponse<User>> | null;
+
+  private usersSubject$ = new Subject<ApiResponse<User>>();
+  usersObs$ = this.usersSubject$.asObservable().pipe(shareReplay(1));
+  private firstFetch: boolean = true;
 
   // path for next or previous page
   getUsers(path?: string | null) {
-    if (!this.users$ || path) {
-      this.users$ = this.http
-        .get<ApiResponse<User>>(path || DEFAULT_API_PATH, {
-          headers,
-        })
-        // avoids refeching same data
-        .pipe(shareReplay(1));
+    if (this.firstFetch || path) {
+      this.fetchUsers(path).then((res) => this.usersSubject$.next(res));
+      this.firstFetch = false;
     }
-
-    return this.users$;
   }
 
   // it forces fetching data with next invoke of getUsers()
   invalidateUsersData() {
-    this.users$ = null;
+    this.firstFetch = true;
   }
 
   addUser(user: CreateUserDto) {
-    return this.http.post(DEFAULT_API_PATH, user, {
+    const request = this.http.post(DEFAULT_API_PATH, user, {
       headers,
     });
+
+    return firstValueFrom(request);
+  }
+
+  private fetchUsers(path?: string | null) {
+    const request = this.http.get<ApiResponse<User>>(path || DEFAULT_API_PATH, {
+      headers,
+    });
+
+    return firstValueFrom(request);
   }
 }

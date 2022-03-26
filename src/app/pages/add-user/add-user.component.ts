@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { finalize } from 'rxjs';
 import { CreateUserDto } from 'src/app/interfaces/user';
 import { UsersService } from 'src/app/services/users.service';
 
@@ -31,22 +30,22 @@ export class AddUserComponent implements OnInit {
     this.disableFormFields = true;
     this.usersService
       .addUser(this.user)
-      .pipe(finalize(() => (this.disableFormFields = false)))
-      .subscribe({
-        next: () => {
-          this.response = {
-            msg: `User was added.`,
-            type: 'success',
-          };
-          this.usersService.invalidateUsersData();
-        },
-        error: (err) => {
-          console.error(err);
-          this.response = {
-            msg: `Failed to add user (${err.statusText})`,
-            type: 'error',
-          };
-        },
+      .then(() => {
+        this.response = {
+          msg: `User was added.`,
+          type: 'success',
+        };
+        this.usersService.invalidateUsersData();
+      })
+      .catch((err) => {
+        console.error(err);
+        this.response = {
+          msg: `Failed to add user (${err.statusText})`,
+          type: 'error',
+        };
+      })
+      .finally(() => {
+        this.disableFormFields = false;
       });
   }
 }

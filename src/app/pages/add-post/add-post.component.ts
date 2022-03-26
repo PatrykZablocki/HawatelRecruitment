@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { finalize } from 'rxjs';
 import { PostsService } from '../../services/posts.service';
 
 @Component({
@@ -29,22 +28,22 @@ export class AddPostComponent implements OnInit {
     this.disableFormFields = true;
     this.postsService
       .addPost({ ...this.post, user_id: +this.post.user_id })
-      .pipe(finalize(() => (this.disableFormFields = false)))
-      .subscribe({
-        next: () => {
-          this.response = {
-            msg: `Post was added.`,
-            type: 'success',
-          };
-          this.postsService.invalidatePostsData();
-        },
-        error: (err) => {
-          console.error(err);
-          this.response = {
-            msg: `Failed to add post (${err.statusText})`,
-            type: 'error',
-          };
-        },
+      .then(() => {
+        this.response = {
+          msg: `Post was added.`,
+          type: 'success',
+        };
+        this.postsService.invalidatePostsData();
+      })
+      .catch((err) => {
+        console.error(err);
+        this.response = {
+          msg: `Failed to add post (${err.statusText})`,
+          type: 'error',
+        };
+      })
+      .finally(() => {
+        this.disableFormFields = false;
       });
   }
 }
